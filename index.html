@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Popup Example</title>
+    <style>
+        /* Styles for the popup */
+        .popup {
+            display: none; 
+            position: fixed; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0, 0, 0, 0.5); 
+            justify-content: center; 
+            align-items: center; 
+        }
+        .popup-content {
+            background: #fff; 
+            padding: 20px; 
+            border-radius: 8px; 
+            width: 300px; 
+            max-width: 90%; 
+            text-align: center;
+        }
+        .popup-content input, 
+        .popup-content textarea {
+            width: 100%; 
+            margin: 10px 0; 
+            padding: 8px; 
+            border: 1px solid #ccc; 
+            border-radius: 4px;
+        }
+        .popup-content button {
+            padding: 10px 15px; 
+            border: none; 
+            border-radius: 4px; 
+            background: #28a745; 
+            color: #fff; 
+            cursor: pointer;
+            margin: 5px; /* Added margin for spacing between buttons */
+        }
+        .popup-content button.close {
+            background: #dc3545;
+        }
+        .ad-list {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .ad-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .ad-item h3 {
+            margin: 0 0 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <button id="showPopupBtn">Add Ad</button>
+
+    <!-- Popup -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <h2>Add New Ad</h2>
+            <input type="text" id="adLink" placeholder="Ad Link" required>
+            <input type="text" id="adName" placeholder="Ad Name" required>
+            <textarea id="adDescription" placeholder="Ad Description" rows="4" required></textarea>
+            <button id="submitAdBtn">Submit Ad</button>
+            <button class="close" id="closePopupBtn">Close</button>
+        </div>
+    </div>
+
+    <!-- Ad List -->
+    <div id="adList" class="ad-list">
+        <h2>Submitted Ads</h2>
+    </div>
+
+    <script>
+        // Get elements
+        const showPopupBtn = document.getElementById('showPopupBtn');
+        const popup = document.getElementById('popup');
+        const closePopupBtn = document.getElementById('closePopupBtn');
+        const submitAdBtn = document.getElementById('submitAdBtn');
+        const adList = document.getElementById('adList');
+
+        // Show popup
+        showPopupBtn.addEventListener('click', () => {
+            popup.style.display = 'flex';
+        });
+
+        // Close popup
+        closePopupBtn.addEventListener('click', () => {
+            popup.style.display = 'none';
+        });
+
+        // Submit ad
+        submitAdBtn.addEventListener('click', () => {
+            const adLink = document.getElementById('adLink').value;
+            const adName = document.getElementById('adName').value;
+            const adDescription = document.getElementById('adDescription').value;
+
+            if (adLink && adName && adDescription) {
+                // Create a new ad item
+                const adItem = document.createElement('div');
+                adItem.classList.add('ad-item');
+
+                // Add content to ad item
+                adItem.innerHTML = `
+                    <h3>${adName}</h3>
+                    <p>${adDescription}</p>
+                    <a href="${adLink}" target="_blank">${adLink}</a>
+                `;
+
+                // Append the ad item to the ad list
+                adList.appendChild(adItem);
+
+                // Clear the form
+                document.getElementById('adLink').value = '';
+                document.getElementById('adName').value = '';
+                document.getElementById('adDescription').value = '';
+                
+                // Close popup
+                popup.style.display = 'none';
+            } else {
+                alert('Please fill out all fields.');
+            }
+        });
+    </script>
+</body>
+</html>
